@@ -3,53 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TPS Türkiye Sokak Ligi | Gerçek Sıralama</title>
+    <title>TPS Türkiye Sokak Ligi | Pro Sıralama</title>
     <style>
         :root {
-            --bg: #0d1117; --card: #161b22; --text: #c9d1d9;
+            --bg: #0b0e14; --card: #151921; --text: #c9d1d9;
             --elmas: #00d2ff; --zumrut: #00ff87; --altin: #ffcc00;
-            --tas: #8b949e; --toprak: #a0522d;
+            --tas: #8b949e; --toprak: #a0522d; --mavi: #58a6ff;
         }
-        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; padding: 10px; display: flex; flex-direction: column; align-items: center; margin: 0; }
-        .header { text-align: center; margin: 20px 0; }
-        .header h1 { color: #fff; text-transform: uppercase; margin: 0; font-size: 24px; text-shadow: 0 0 10px rgba(0,210,255,0.5); }
-        .nav-btns { display: flex; gap: 8px; margin-bottom: 20px; width: 100%; max-width: 450px; }
-        .nav-btns button { flex: 1; padding: 12px; border: 2px solid #30363d; background: var(--card); color: #fff; font-weight: bold; cursor: pointer; border-radius: 8px; transition: 0.3s; font-size: 14px; }
-        .nav-btns button.active { border-color: #58a6ff; background: #1f2937; box-shadow: 0 0 15px rgba(88,166,255,0.3); }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { color: #fff; text-transform: uppercase; margin: 0; font-size: 26px; text-shadow: 0 0 15px var(--mavi); }
         
-        .list-container { width: 100%; max-width: 450px; display: none; }
+        .nav-btns { display: flex; gap: 10px; margin-bottom: 25px; width: 100%; max-width: 480px; }
+        .nav-btns button { flex: 1; padding: 14px; border: 2px solid #30363d; background: var(--card); color: #fff; font-weight: bold; cursor: pointer; border-radius: 10px; transition: 0.3s; }
+        .nav-btns button.active { border-color: var(--mavi); box-shadow: 0 0 15px rgba(88,166,255,0.4); background: #1c212b; }
+
+        .list-container { width: 100%; max-width: 480px; display: none; }
         .list-container.active { display: block; }
 
-        .player-card { background: var(--card); border: 1px solid #30363d; border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
-        .p-info { display: flex; align-items: center; gap: 12px; }
-        .p-rank { font-size: 18px; font-weight: bold; color: #58a6ff; min-width: 25px; text-align: center; }
-        .p-name { font-weight: bold; color: #fff; font-size: 15px; text-transform: uppercase; }
-        .p-points { color: #8b949e; font-size: 11px; margin-top: 2px; }
-        
-        .p-stats-wrapper { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
-        .stats-labels { display: flex; gap: 5px; font-size: 8px; color: #8b949e; padding-right: 2px; }
-        .stats-labels span { width: 30px; text-align: center; }
-        .p-stats { display: flex; gap: 5px; }
-        .s-box { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-weight: bold; font-size: 14px; color: #000; transition: 0.2s; }
-        
-        /* Gerçek Rütbe Renkleri */
-        .rank-1 { background: var(--elmas); box-shadow: 0 0 10px rgba(0,210,255,0.4); }
-        .rank-2 { background: var(--zumrut); box-shadow: 0 0 10px rgba(0,255,135,0.4); }
-        .rank-3 { background: var(--altin); box-shadow: 0 0 10px rgba(255,204,0,0.4); }
-        .rank-4 { background: var(--tas); color: #fff; }
-        .rank-5 { background: var(--toprak); color: #fff; }
-        .rank-low { background: #30363d; color: #fff; border: 1px solid #444; }
+        .player-card { background: var(--card); border: 1px solid #30363d; border-radius: 12px; padding: 14px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; transition: 0.2s; }
+        .p-info { display: flex; align-items: center; gap: 15px; }
+        .p-rank { font-size: 20px; font-weight: bold; color: var(--mavi); min-width: 30px; }
+        .p-name { font-weight: bold; color: #fff; font-size: 16px; text-transform: uppercase; }
+        .p-points { color: #8b949e; font-size: 12px; margin-top: 3px; }
 
-        .player-card:hover { border-color: #58a6ff; transform: translateY(-2px); }
+        .stats-area { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+        .stats-head { display: flex; gap: 6px; font-size: 9px; color: #8b949e; font-weight: bold; padding-right: 2px; }
+        .stats-head span { width: 32px; text-align: center; }
+        .stats-row { display: flex; gap: 6px; }
+        .s-box { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-weight: bold; font-size: 15px; color: #000; }
+
+        .r1 { background: var(--elmas); box-shadow: 0 0 10px var(--elmas); }
+        .r2 { background: var(--zumrut); box-shadow: 0 0 10px var(--zumrut); }
+        .r3 { background: var(--altin); box-shadow: 0 0 10px var(--altin); }
+        .r4 { background: var(--tas); color: #fff; }
+        .r5 { background: var(--toprak); color: #fff; }
+        .r-low { background: #30363d; color: #fff; border: 1px solid #444; }
     </style>
 </head>
 <body>
 
 <div class="header">
     <h1>TÜRKİYE SOKAK LİGİ</h1>
-    <p style="color: #8b949e; font-size: 12px;">Sıralama Puanı ve Rütbeler Günceldir</p>
+    <p style="color: #8b949e; font-size: 13px;">Sıralama Puanı ve Rütbeler Günceldir</p>
 </div>
 
 <div class="nav-btns">
-    <button id="btn-mobil" class="active" onclick="toggle('mobil')">📱 MOBİL</button>
-    <button id="
+    <button id="btn-mobil" class="active" onclick="show('mobil')">📱 MOBİL</button>
+    <button id="btn-pc" onclick="show('pc')">💻 PC (BİLGİSAYAR)</button>
+</div>
+
+<div id="mobil" class="list-container active">
+    </div>
+
+<div id="pc" class="list-container">
+    </div>
+
+<script>
+    const mobilPlayers = [
+        {r:1, n:"HACI", p:"500.7", s:[1,1,2]}, {r:2, n:"SABENJR", p:"330.7", s:[1,2,1]},
+        {r:3, n:"TWECAN", p:"259.4", s:[2,1,3]}, {r:4, n:"RAYZ", p:"218.5", s:[1,2,4]},
+        {r:5, n:"NOXEN", p:"191.2", s:[2,2,5]}, {r:6, n:"DUGARS", p:"170.0", s:[1,3,4]},
+        {r:7, n:"VEEDZ", p:"156.3", s:[2,3,6]}, {r:8, n:"WEZZ", p:"143.7", s:[1,5,3]},
+        {r:9, n:"SYROXZ", p:"134.4", s:[2,6,2]}, {r:10, n:"NUMAN", p:"126.4", s:[3,2,6]},
+        {r:11, n:"FUNNY", p:"119.3", s:[2,4,6]}, {r:12, n:"EXO", p:"113.0", s:[4,1,5]},
+        {r:13, n:"WENDZ", p:"108.1", s:[2,5,3]}, {r:14, n:"QBZ", p:"103.1", s:[2,4,7]},
+        {r:15, n:"AHMETBG", p:"98.9", s:[1,3,9]}, {r:16, n:"EGO", p:"95.2", s:[4,4,6]},
+        {r:17, n:"XANTI", p:"91.7", s:[4,5,6]}, {r:18, n:"RAYZEN", p:"88.7", s:[5,3,7]},
+        {r:19, n:"OXYGEN", p:"86.0", s:[6,4,6]}, {r:20, n:"KRIPPO", p:"83.8", s:[4,5,8]},
+        {r:21, n:"DRUN", p:"81.0", s:[2,8,6]}, {r:22, n:"DRUNJR", p:"79.2", s:[4,7,5]},
+        {r:23, n:"WERQYS", p:"76.6", s:[6,5,8]}, {r:24, n:"JACK", p:"75.2", s:[7,6,7]}
+    ];
+
+    const pcPlayers = [
+        {r:1, n:"LUXERA", p:"500.5", s:[1,1,1]}, {r:2, n:"DAYZE", p:"330.5", s:[1,1,3]},
+        {r:3, n:"OLDURAY", p:"259.4", s:[1,2,2]}, {r:4, n:"LREZY", p:"218.0", s:[1,3,2]},
+        {r:5, n:"BLITZ", p:"190.9", s:[2,1,3]}, {r:6, n:"SABEN", p:"171.0", s:[3,1,2]},
+        {r:8, n:"CLEDITS", p:"143.8", s:[2,1,3]}, {r:9, n:"RIPLEO", p:"134.6", s:[3,1,5]},
+        {r:10, n:"K3DII", p:"126.1", s:[2,3,5]}, {r:11, n:"KUTAY", p:"119.1", s:[3,2,6]},
+        {r:12, n:"ZENKY", p:"113.4", s:[1,5,5]}, {r:13, n:"MESUT", p:"107.8", s:[3,4,7]},
+        {r:14, n:"ENREII", p:"102.8", s:[4,2,6]}
+    ];
+
+    function getClass(v) {
+        if(v==1) return 'r1'; if(v==2) return 'r2'; if(v==3) return 'r3';
+        if(v==4) return 'r4'; if(v==5) return 'r5'; return 'r-low';
+    }
+
+    function build(data, id) {
+        const div = document.getElementById(id);
+        let html = '';
+        data.forEach(x => {
+            html += `
+            <div class="player-card">
+                <div class="p-info">
+                    <div class="p-rank">${x.r}</div>
+                    <div>
+                        <div class="p-name">${x.n}</div>
+                        <div class="p-points">${x.p} PUAN</div>
+                    </div>
+                </div>
+                <div class="stats-area">
+                    <div class="stats-head"><span>MOSS</span><span>PAS</span><span>GK</span></div>
+                    <div class="stats-row">
+                        <div class="s-box ${getClass(x.s[0])}">${x.s[0]}</div>
+                        <div class="s-box ${getClass(x.s[1])}">${x.s[1]}</div>
+                        <div class="s-box ${getClass(x.s[2])}">${x.s[2]}</div>
+                    </div>
+                </div>
+            </div>`;
+        });
+        div.innerHTML = html;
+    }
+
+    build(mobilPlayers, 'mobil');
+    build(pcPlayers, 'pc');
+
+    function show(t) {
+        document.getElementById('mobil').style.display = (t === 'mobil' ? 'block' : 'none');
+        document.getElementById('pc').style.display = (t === 'pc' ? 'block' : 'none');
+        document.getElementById('btn-mobil').className = (t === 'mobil' ? 'active' : '');
+        document.getElementById('btn-pc').className = (t === 'pc' ? 'active' : '');
+    }
+</script>
+
+</body>
+</html>
