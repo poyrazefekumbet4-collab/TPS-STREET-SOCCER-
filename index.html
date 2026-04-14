@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TPS Türkiye Sokak Ligi | Pro Sıralama</title>
+    <title>TPS Türkiye Sokak Ligi</title>
     <style>
         :root {
             --bg: #0b0e14; --card: #151921; --text: #c9d1d9;
@@ -11,9 +11,14 @@
             --tas: #8b949e; --toprak: #a0522d; --mavi: #58a6ff;
         }
         body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
-        .header { text-align: center; margin-bottom: 25px; }
+        .header { text-align: center; margin-bottom: 20px; }
         .header h1 { color: #fff; text-transform: uppercase; margin: 0; font-size: 26px; text-shadow: 0 0 15px var(--mavi); }
         
+        /* Kopyala Butonu Stili */
+        .copy-box { margin-bottom: 25px; }
+        .btn-copy { background: #238636; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-copy:hover { background: #2ea043; transform: scale(1.05); }
+
         .nav-btns { display: flex; gap: 10px; margin-bottom: 25px; width: 100%; max-width: 480px; }
         .nav-btns button { flex: 1; padding: 14px; border: 2px solid #30363d; background: var(--card); color: #fff; font-weight: bold; cursor: pointer; border-radius: 10px; transition: 0.3s; }
         .nav-btns button.active { border-color: var(--mavi); box-shadow: 0 0 15px rgba(88,166,255,0.4); background: #1c212b; }
@@ -21,14 +26,14 @@
         .list-container { width: 100%; max-width: 480px; display: none; }
         .list-container.active { display: block; }
 
-        .player-card { background: var(--card); border: 1px solid #30363d; border-radius: 12px; padding: 14px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; transition: 0.2s; }
+        .player-card { background: var(--card); border: 1px solid #30363d; border-radius: 12px; padding: 14px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
         .p-info { display: flex; align-items: center; gap: 15px; }
         .p-rank { font-size: 20px; font-weight: bold; color: var(--mavi); min-width: 30px; }
         .p-name { font-weight: bold; color: #fff; font-size: 16px; text-transform: uppercase; }
         .p-points { color: #8b949e; font-size: 12px; margin-top: 3px; }
 
         .stats-area { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
-        .stats-head { display: flex; gap: 6px; font-size: 9px; color: #8b949e; font-weight: bold; padding-right: 2px; }
+        .stats-head { display: flex; gap: 6px; font-size: 9px; color: #8b949e; font-weight: bold; }
         .stats-head span { width: 32px; text-align: center; }
         .stats-row { display: flex; gap: 6px; }
         .s-box { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-weight: bold; font-size: 15px; color: #000; }
@@ -38,7 +43,7 @@
         .r3 { background: var(--altin); box-shadow: 0 0 10px var(--altin); }
         .r4 { background: var(--tas); color: #fff; }
         .r5 { background: var(--toprak); color: #fff; }
-        .r-low { background: #30363d; color: #fff; border: 1px solid #444; }
+        .r-low { background: #30363d; color: #fff; }
     </style>
 </head>
 <body>
@@ -48,18 +53,26 @@
     <p style="color: #8b949e; font-size: 13px;">Sıralama Puanı ve Rütbeler Günceldir</p>
 </div>
 
-<div class="nav-btns">
-    <button id="btn-mobil" class="active" onclick="show('mobil')">📱 MOBİL</button>
-    <button id="btn-pc" onclick="show('pc')">💻 PC (BİLGİSAYAR)</button>
+<div class="copy-box">
+    <button class="btn-copy" onclick="copyLink()">🔗 SİTE LİNKİNİ KOPYALA</button>
 </div>
 
-<div id="mobil" class="list-container active">
-    </div>
+<div class="nav-btns">
+    <button id="btn-mobil" class="active" onclick="show('mobil')">📱 MOBİL</button>
+    <button id="btn-pc" onclick="show('pc')">💻 PC</button>
+</div>
 
-<div id="pc" class="list-container">
-    </div>
+<div id="mobil" class="list-container active"></div>
+<div id="pc" class="list-container"></div>
 
 <script>
+    // Link kopyalama fonksiyonu
+    function copyLink() {
+        const bitlyLink = "https://bit.ly/4mrCriq";
+        navigator.clipboard.writeText(bitlyLink);
+        alert("Sitenin kısa linki kopyalandı! Arkadaşlarına bunu atabilirsin: " + bitlyLink);
+    }
+
     const mobilPlayers = [
         {r:1, n:"HACI", p:"500.7", s:[1,1,2]}, {r:2, n:"SABENJR", p:"330.7", s:[1,2,1]},
         {r:3, n:"TWECAN", p:"259.4", s:[2,1,3]}, {r:4, n:"RAYZ", p:"218.5", s:[1,2,4]},
