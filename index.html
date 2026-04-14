@@ -3,126 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TPS Türkiye Sokak Ligi | Tam Sıralama</title>
+    <title>TPS Türkiye Sokak Ligi | Gerçek Sıralama</title>
     <style>
         :root {
             --bg: #0d1117; --card: #161b22; --text: #c9d1d9;
             --elmas: #00d2ff; --zumrut: #00ff87; --altin: #ffcc00;
             --tas: #8b949e; --toprak: #a0522d;
         }
-        body { background: var(--bg); color: var(--text); font-family: sans-serif; padding: 10px; display: flex; flex-direction: column; align-items: center; }
-        .header { text-align: center; margin-bottom: 20px; }
-        .header h1 { color: #fff; text-transform: uppercase; letter-spacing: 2px; }
-        .nav-btns { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; max-width: 500px; }
-        .nav-btns button { flex: 1; padding: 15px; border: 2px solid #30363d; background: var(--card); color: #fff; font-weight: bold; cursor: pointer; border-radius: 8px; transition: 0.3s; }
-        .nav-btns button.active { border-color: #58a6ff; box-shadow: 0 0 15px rgba(88,166,255,0.4); }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; padding: 10px; display: flex; flex-direction: column; align-items: center; margin: 0; }
+        .header { text-align: center; margin: 20px 0; }
+        .header h1 { color: #fff; text-transform: uppercase; margin: 0; font-size: 24px; text-shadow: 0 0 10px rgba(0,210,255,0.5); }
+        .nav-btns { display: flex; gap: 8px; margin-bottom: 20px; width: 100%; max-width: 450px; }
+        .nav-btns button { flex: 1; padding: 12px; border: 2px solid #30363d; background: var(--card); color: #fff; font-weight: bold; cursor: pointer; border-radius: 8px; transition: 0.3s; font-size: 14px; }
+        .nav-btns button.active { border-color: #58a6ff; background: #1f2937; box-shadow: 0 0 15px rgba(88,166,255,0.3); }
         
-        .list-container { width: 100%; max-width: 500px; display: none; }
+        .list-container { width: 100%; max-width: 450px; display: none; }
         .list-container.active { display: block; }
 
-        .player-card { background: var(--card); border: 1px solid #30363d; border-radius: 10px; padding: 12px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
-        .p-info { display: flex; align-items: center; gap: 15px; }
-        .p-rank { font-size: 20px; font-weight: bold; color: #58a6ff; min-width: 30px; }
-        .p-name { font-weight: bold; color: #fff; font-size: 16px; }
-        .p-points { color: #8b949e; font-size: 12px; }
+        .player-card { background: var(--card); border: 1px solid #30363d; border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+        .p-info { display: flex; align-items: center; gap: 12px; }
+        .p-rank { font-size: 18px; font-weight: bold; color: #58a6ff; min-width: 25px; text-align: center; }
+        .p-name { font-weight: bold; color: #fff; font-size: 15px; text-transform: uppercase; }
+        .p-points { color: #8b949e; font-size: 11px; margin-top: 2px; }
         
+        .p-stats-wrapper { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+        .stats-labels { display: flex; gap: 5px; font-size: 8px; color: #8b949e; padding-right: 2px; }
+        .stats-labels span { width: 30px; text-align: center; }
         .p-stats { display: flex; gap: 5px; }
-        .s-box { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-weight: bold; font-size: 14px; color: #000; }
+        .s-box { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-weight: bold; font-size: 14px; color: #000; transition: 0.2s; }
         
-        /* Rütbe Renkleri */
-        .rank-1 { background: var(--elmas); box-shadow: 0 0 8px var(--elmas); }
-        .rank-2 { background: var(--zumrut); box-shadow: 0 0 8px var(--zumrut); }
-        .rank-3 { background: var(--altin); box-shadow: 0 0 8px var(--altin); }
-        .rank-4, .rank-a { background: var(--tas); }
-        .rank-5, .rank-b { background: var(--toprak); }
-        .rank-low { background: #444; color: #fff; }
+        /* Gerçek Rütbe Renkleri */
+        .rank-1 { background: var(--elmas); box-shadow: 0 0 10px rgba(0,210,255,0.4); }
+        .rank-2 { background: var(--zumrut); box-shadow: 0 0 10px rgba(0,255,135,0.4); }
+        .rank-3 { background: var(--altin); box-shadow: 0 0 10px rgba(255,204,0,0.4); }
+        .rank-4 { background: var(--tas); color: #fff; }
+        .rank-5 { background: var(--toprak); color: #fff; }
+        .rank-low { background: #30363d; color: #fff; border: 1px solid #444; }
+
+        .player-card:hover { border-color: #58a6ff; transform: translateY(-2px); }
     </style>
 </head>
 <body>
 
 <div class="header">
     <h1>TÜRKİYE SOKAK LİGİ</h1>
-    <p>Sadece Yetenek Konuşur</p>
+    <p style="color: #8b949e; font-size: 12px;">Sıralama Puanı ve Rütbeler Günceldir</p>
 </div>
 
 <div class="nav-btns">
     <button id="btn-mobil" class="active" onclick="toggle('mobil')">📱 MOBİL</button>
-    <button id="btn-pc" onclick="toggle('pc')">💻 BİLGİSAYAR</button>
-</div>
-
-<div id="mobil" class="list-container active">
-    <script>
-        const mobData = [
-            {r:1, n:"HACI", p:"500.7", s:[1,1,2]}, {r:2, n:"SABENJR", p:"330.7", s:[1,2,1]},
-            {r:3, n:"TWECAN", p:"259.4", s:[2,1,3]}, {r:4, n:"RAYZ", p:"218.5", s:[1,2,4]},
-            {r:5, n:"NOXEN", p:"191.2", s:[2,2,5]}, {r:6, n:"DUGARS", p:"170.0", s:[1,3,4]},
-            {r:7, n:"VEEDZ", p:"156.3", s:[2,3,6]}, {r:8, n:"WEZZ", p:"143.7", s:[1,5,3]},
-            {r:9, n:"SYROXZ", p:"134.4", s:[2,6,2]}, {r:10, n:"NUMAN", p:"126.4", s:[3,2,6]},
-            {r:11, n:"FUNNY", p:"119.3", s:[2,4,6]}, {r:12, n:"EXO", p:"113.0", s:[4,1,5]},
-            {r:13, n:"WENDZ", p:"108.1", s:[2,5,3]}, {r:14, n:"QBZ", p:"103.1", s:[2,4,7]},
-            {r:15, n:"AHMETBG", p:"98.9", s:[1,3,9]}, {r:16, n:"EGO", p:"95.2", s:[4,4,6]},
-            {r:17, n:"XANTI", p:"91.7", s:[4,5,6]}, {r:18, n:"RAYZEN", p:"88.7", s:[5,3,7]},
-            {r:19, n:"OXYGEN", p:"86.0", s:[6,4,6]}, {r:20, n:"KRIPPO", p:"83.8", s:[4,5,8]},
-            {r:21, n:"DRUN", p:"81.0", s:[2,8,6]}, {r:22, n:"DRUNJR", p:"79.2", s:[4,7,5]},
-            {r:23, n:"WERQYS", p:"76.6", s:[6,5,8]}, {r:24, n:"JACK", p:"75.2", s:[7,6,7]}
-        ];
-        // PC Datası (Attığın resimlerden)
-        const pcData = [
-            {r:1, n:"LUXERA", p:"500.5", s:[1,1,1]}, {r:2, n:"DAYZE", p:"330.5", s:[1,1,3]},
-            {r:3, n:"OLDURAY", p:"259.4", s:[1,2,2]}, {r:4, n:"LREZY", p:"218.0", s:[1,3,2]},
-            {r:5, n:"BLITZ", p:"190.9", s:[2,1,3]}, {r:6, n:"SABEN", p:"171.0", s:[3,1,2]},
-            {r:8, n:"CLEDITS", p:"143.8", s:[2,1,3]}, {r:9, n:"RIPLEO", p:"134.6", s:[3,1,5]},
-            {r:10, n:"K3DII", p:"126.1", s:[2,3,5]}, {r:11, n:"KUTAY", p:"119.1", s:[3,2,6]},
-            {r:12, n:"ZENKY", p:"113.4", s:[1,5,5]}, {r:13, n:"MESUT", p:"107.8", s:[3,4,7]},
-            {r:14, n:"ENREII", p:"102.8", s:[4,2,6]}
-        ];
-
-        function getRankClass(val) {
-            if(val == 1) return 'rank-1'; if(val == 2) return 'rank-2';
-            if(val == 3) return 'rank-3'; if(val == 4) return 'rank-4';
-            if(val == 5) return 'rank-5'; return 'rank-low';
-        }
-
-        function render(data, targetId) {
-            const container = document.getElementById(targetId);
-            data.forEach(p => {
-                container.innerHTML += `
-                    <div class="player-card">
-                        <div class="p-info">
-                            <div class="p-rank">${p.r}</div>
-                            <div>
-                                <div class="p-name">${p.n}</div>
-                                <div class="p-points">${p.p} PUAN</div>
-                            </div>
-                        </div>
-                        <div class="p-stats">
-                            <div class="s-box ${getRankClass(p.s[0])}">${p.s[0]}</div>
-                            <div class="s-box ${getRankClass(p.s[1])}">${p.s[1]}</div>
-                            <div class="s-box ${getRankClass(p.s[2])}">${p.s[2]}</div>
-                        </div>
-                    </div>`;
-            });
-        }
-    </script>
-</div>
-
-<div id="pc" class="list-container">
-    </div>
-
-<script>
-    render(mobData, 'mobil');
-    render(pcData, 'pc');
-
-    function toggle(type) {
-        document.getElementById('mobil').classList.remove('active');
-        document.getElementById('pc').classList.remove('active');
-        document.getElementById('btn-mobil').classList.remove('active');
-        document.getElementById('btn-pc').classList.remove('active');
-
-        document.getElementById(type).classList.add('active');
-        document.getElementById('btn-' + type).classList.add('active');
-    }
-</script>
-
-</body>
-</html>
+    <button id="
