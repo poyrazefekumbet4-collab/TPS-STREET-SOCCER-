@@ -3,215 +3,328 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TPStiers | Pheno</title>
+    <title>Türkiye Sokak Ligi | TPS Sıralaması</title>
     <style>
+        /* TEMEL STİLLER (MODERN DARK THEME) */
         :root {
-            --bg-color: #0d0d0d;
-            --card-bg: #1a1a1a;
-            --accent-purple: #a855f7;
-            --accent-green: #22c55e;
-            --text-gray: #9ca3af;
-            --gold: #fbbf24;
+            --bg-color: #0b0c10;
+            --card-bg: #1f2833;
+            --text-color: #c5c6c7;
+            --main-neon: #66fcf1; /* Neon Mavi/Turkuaz */
+            --rank-diamond: #a8d5e2; /* Elmas */
+            --rank-emerald: #50c878; /* Zümrüt */
+            --rank-gold: #fbc02d;    /* Altın */
+            --rank-stone: #9e9e9e;   /* Taş */
+            --rank-earth: #8d6e63;   /* Toprak */
         }
 
-        /* Arka Plan Mor-Yeşil Geçiş Efekti */
         body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
-            color: white;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(34, 197, 94, 0.15) 0%, transparent 40%);
-            background-attachment: fixed;
-        }
-
-        /* Header & Menü */
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 20px;
-            background: rgba(0,0,0,0.8);
-            border-bottom: 1px solid #333;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .menu-icon { font-size: 24px; cursor: pointer; color: var(--accent-purple); }
-        .logo { font-size: 22px; font-weight: 800; italic; color: var(--accent-purple); text-shadow: 0 0 10px rgba(168, 85, 247, 0.5); }
-
-        /* Welcome Section */
-        .welcome-box {
-            text-align: center;
+            color: var(--text-color);
+            margin: 0;
             padding: 20px;
-            margin: 20px;
-            background: var(--card-bg);
-            border-radius: 12px;
-            border: 1px solid #333;
-        }
-        .welcome-box h1 { margin: 0; font-size: 1.5rem; }
-        .welcome-box p { color: var(--accent-green); margin: 5px 0 0; font-weight: bold; }
-
-        /* Platform Seçimi (Mobil / PC) */
-        .tabs {
             display: flex;
-            gap: 10px;
-            padding: 0 20px;
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            background: #222;
-            color: white;
-            font-weight: bold;
-            display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            cursor: pointer;
-            border: 1px solid transparent;
-        }
-        .tab-btn.active {
-            background: linear-gradient(45deg, var(--accent-purple), var(--accent-green));
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
         }
 
-        /* Kategoriler (Moss, Pas, GK, Genel) */
-        .categories {
-            display: flex;
-            overflow-x: auto;
-            gap: 10px;
-            padding: 20px;
-        }
-        .cat-btn {
-            padding: 8px 16px;
-            background: #222;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: bold;
+        h1, h2 {
+            color: #fff;
             text-transform: uppercase;
-            white-space: nowrap;
-            border: 1px solid #333;
+            text-shadow: 0 0 10px var(--main-neon);
         }
-        .cat-btn.active { background: #444; border-color: var(--text-gray); }
 
-        /* Oyuncu Kartı Tasarımı */
-        .player-list { padding: 0 20px 20px; }
-        .player-card {
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 12px;
+        /* MODERN BUTONLAR VE FİLTRELEME */
+        .controls {
+            margin-bottom: 20px;
             display: flex;
-            align-items: center;
-            border-left: 4px solid var(--accent-purple);
-            position: relative;
-            transition: 0.3s;
+            gap: 15px;
         }
-        .player-card:hover { transform: scale(1.02); }
-        
-        .rank { font-size: 24px; font-weight: 900; color: var(--accent-green); width: 40px; }
-        .info { flex-grow: 1; }
-        .info .name { font-weight: bold; font-size: 18px; display: block; }
-        .info .points { color: var(--gold); font-size: 13px; }
 
-        .stats { display: flex; gap: 8px; }
-        .stat-box {
-            background: #222;
-            padding: 8px;
+        .filter-btn {
+            background: none;
+            border: 2px solid var(--main-neon);
+            color: var(--main-neon);
+            padding: 10px 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
             border-radius: 5px;
-            text-align: center;
-            min-width: 35px;
-            border: 1px solid #333;
         }
-        .stat-box.highlight { box-shadow: 0 0 10px rgba(168, 85, 247, 0.4); border-color: var(--accent-purple); }
-        .stat-label { font-size: 9px; color: var(--text-gray); display: block; margin-bottom: 2px; }
-        .stat-val { font-weight: bold; color: #fff; }
 
-        /* Renk Seviyeleri (Senin resimlerdeki gibi) */
-        .val-1 { color: #818cf8; } /* Elmas mavisi */
-        .val-2 { color: #4ade80; } /* Zümrüt yeşili */
-        .val-3 { color: #fbbf24; } /* Altın sarısı */
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--main-neon);
+            color: #000;
+            box-shadow: 0 0 20px var(--main-neon);
+        }
+
+        /* OYUNCU KARTLARI LİSTESİ */
+        .player-list {
+            width: 100%;
+            max-width: 600px;
+            display: none; /* Varsayılan olarak gizli */
+        }
+
+        .player-list.active {
+            display: block; /* Sadece aktif liste görünür */
+        }
+
+        /* MODERN OYUNCU KARTI */
+        .player-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 50px 1fr auto;
+            align-items: center;
+            border-left: 5px solid transparent;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .player-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .player-rank {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--main-neon);
+            text-align: center;
+        }
+
+        .player-info h3 {
+            margin: 0 0 5px 0;
+            color: #fff;
+        }
+
+        .player-info p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        /* MOSS/PAS/GK KUTUCUKLARI (MODERN NEON) */
+        .stats-boxes {
+            display: flex;
+            gap: 10px;
+        }
+
+        .stat-box {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            border-radius: 5px;
+            font-size: 18px;
+            color: #000;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+
+        /* RÜTBE RENKLERİ VE PARLAMA EFEKTLERİ */
+        .stat-box.elmas {
+            background-color: var(--rank-diamond);
+            box-shadow: 0 0 10px var(--rank-diamond);
+        }
+        .stat-box.zumrut {
+            background-color: var(--rank-emerald);
+            box-shadow: 0 0 10px var(--rank-emerald);
+        }
+        .stat-box.altin {
+            background-color: var(--rank-gold);
+            box-shadow: 0 0 10px var(--rank-gold);
+        }
+        .stat-box.tas {
+            background-color: var(--rank-stone);
+            border: 1px solid var(--rank-stone);
+            color: #fff;
+        }
+        .stat-box.toprak {
+            background-color: var(--rank-earth);
+            color: #fff;
+        }
+
+        /* MODERN BASILI TUTMA VE TIKLAMA REAKSİYONU (PC İçin) */
+        .stat-box:active {
+            transform: scale(0.9);
+            box-shadow: 0 0 5px rgba(255,255,255,0.5);
+        }
+
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="menu-icon">☰</div>
-        <div class="logo">TPStiers</div>
-        <div style="width: 24px;"></div>
-    </header>
+    <h1>Türkiye Sokak Ligi</h1>
+    <p>En iyilerin sıralandığı arena. Sadece yetenek konuşur.</p>
 
-    <div class="welcome-box">
-        <h1>Tpstierse Hoşgeldiniz</h1>
-        <p>Yapımcı: Pheno</p>
+    <div class="controls">
+        <button class="filter-btn active" onclick="showList('mobil')">📱 MOBİL</button>
+        <button class="filter-btn" onclick="showList('pc')">💻 PC</button>
     </div>
 
-    <div class="tabs">
-        <button class="tab-btn active">📱 MOBİL</button>
-        <button class="tab-btn">💻 PC</button>
-    </div>
+    <div id="mobil-list" class="player-list active">
+        <h2>MOBİL SIRALAMASI (24 Oyuncu)</h2>
 
-    <div class="categories">
-        <div class="cat-btn">MOSS</div>
-        <div class="cat-btn">PAS</div>
-        <div class="cat-btn">GK</div>
-        <div class="cat-btn active">GENEL</div>
-    </div>
-
-    <div class="player-list">
-        <h3 style="margin-bottom: 15px; font-size: 14px; color: var(--text-gray);">GENEL MOBİL SIRALAMASI</h3>
-
-        <div class="player-card">
-            <div class="rank">#1</div>
-            <div class="info">
-                <span style="color:var(--gold); font-size: 10px;">👑 TOP 1</span>
-                <span class="name">HACI</span>
-                <span class="points">500.7 puan</span>
+        <div class="player-cardelmas">
+            <div class="player-rank">1</div>
+            <div class="player-info">
+                <h3>HACI</h3>
+                <p>500.7 puan</p>
             </div>
-            <div class="stats">
-                <div class="stat-box"><span class="stat-label">MOSS</span><span class="stat-val val-1">1</span></div>
-                <div class="stat-box"><span class="stat-label">PAS</span><span class="stat-val val-1">1</span></div>
-                <div class="stat-box highlight"><span class="stat-label">GK</span><span class="stat-val val-2">2</span></div>
+            <div class="stats-boxes">
+                <div class="stat-box elmas">1</div>
+                <div class="stat-box elmas">1</div>
+                <div class="stat-box zumrut">2</div>
             </div>
         </div>
 
-        <div class="player-card" style="border-left-color: var(--accent-green);">
-            <div class="rank">#2</div>
-            <div class="info">
-                <span class="name">SABENJR</span>
-                <span class="points">330.7 puan</span>
+        <div class="player-cardzumrut">
+            <div class="player-rank">2</div>
+            <div class="player-info">
+                <h3>SABENJR</h3>
+                <p>330.7 puan</p>
             </div>
-            <div class="stats">
-                <div class="stat-box"><span class="stat-label">MOSS</span><span class="stat-val val-1">1</span></div>
-                <div class="stat-box highlight"><span class="stat-label">PAS</span><span class="stat-val val-2">2</span></div>
-                <div class="stat-box"><span class="stat-label">GK</span><span class="stat-val val-1">1</span></div>
-            </div>
-        </div>
-
-        <div class="player-card">
-            <div class="rank">#3</div>
-            <div class="info">
-                <span style="color:var(--gold); font-size: 10px;">👑 LEGEND</span>
-                <span class="name">LUXERA</span>
-                <span class="points">500.5 puan</span>
-            </div>
-            <div class="stats">
-                <div class="stat-box"><span class="stat-label">MOSS</span><span class="stat-val val-1">1</span></div>
-                <div class="stat-box"><span class="stat-label">PAS</span><span class="stat-val val-1">1</span></div>
-                <div class="stat-box"><span class="stat-label">GK</span><span class="stat-val val-1">1</span></div>
+            <div class="stats-boxes">
+                <div class="stat-box elmas">1</div>
+                <div class="stat-box zumrut">2</div>
+                <div class="stat-box elmas">1</div>
             </div>
         </div>
 
+        <div class="player-cardaltin">
+            <div class="player-rank">3</div>
+            <div class="player-info">
+                <h3>TWECAN</h3>
+                <p>259.4 puan</p>
+            </div>
+            <div class="stats-boxes">
+                <div class="stat-box zumrut">2</div>
+                <div class="stat-box elmas">1</div>
+                <div class="stat-box altin">3</div>
+            </div>
+        </div>
+
+        <div class="player-cardtas">
+            <div class="player-rank">4</div>
+            <div class="player-info">
+                <h3>RAYZ</h3>
+                <p>218.5 puan</p>
+            </div>
+            <div class="stats-boxes">
+                <div class="stat-box elmas">1</div>
+                <div class="stat-box zumrut">2</div>
+                <div class="stat-box tas">4</div>
+            </div>
+        </div>
+
+        <div class="player-cardtoprak">
+            <div class="player-rank">5</div>
+            <div class="player-info">
+                <h3>🏆 NOXEN</h3>
+                <p>191.2 puan (BEST SHOOTER)</p>
+            </div>
+            <div class="stats-boxes">
+                <div class="stat-box zumrut">2</div>
+                <div class="stat-box zumrut">2</div>
+                <div class="stat-box toprak">5</div>
+            </div>
+        </div>
+
+        <div class="player-cardtoprak">
+            <div class="player-rank">24</div>
+            <div class="player-info">
+                <h3>JACK</h3>
+                <p>75.2 puan</p>
+            </div>
+            <div class="stats-boxes">
+                <div class="stat-box toprak">7</div>
+                <div class="stat-box toprak">6</div>
+                <div class="stat-box toprak">7</div>
+            </div>
+        </div>
     </div>
+
+    <div id="pc-list" class="player-list">
+        <h2>PC SIRALAMASI (Örnek)</h2>
+
+        <div class="player-cardelmas">
+            <div class="player-rank">1</div>
+            <div class="player-info">
+                <h3>🏆 LUXERA</h3>
+                <p>500.5 puan (TOP 1)</p>
+            </div>
+            <div class="stats-boxes">
+                <div class="stat-box elmas">1</div>
+                <div class="stat-box elmas">1</div>
+                <div class="stat-box elmas">1</div>
+            </div>
+        </div>
+
+        <div class="player-cardzumrut">
+            <div class="player-rank">2</div>
+            <div class="player-info">
+                <h3>DAYZE</h3>
+                <p>330.5 puan (ALWAYS THE BEST)</p>
+            </div>
+            <div class="stats-boxes">
+                <div class="stat-box elmas">1</div>
+                <div class="stat-box elmas">1</div>
+                <div class="stat-box altin">3</div>
+            </div>
+        </div>
+
+        <div class="player-cardaltin">
+            <div class="player-rank">3</div>
+            <div class="player-info">
+                <h3>OLDURAY</h3>
+                <p>259.4 puan (LEGEND)</p>
+            </div>
+            <div class="stats-boxes">
+                <div class="stat-box elmas">1</div>
+                <div class="stat-box zumrut">2</div>
+                <div class="stat-box zumrut">2</div>
+            </div>
+        </div>
+
+        </div>
 
     <script>
-        // Buraya ileride butonlara basınca listeyi değiştiren JS kodlarını ekleyeceğiz gardaş.
-        console.log("Pheno TpsTiers Hazır!");
+        // FİLTRELEME FONKSİYONU
+        function showList(listName) {
+            // Tüm listeleri gizle
+            const lists = document.querySelectorAll('.player-list');
+            lists.forEach(list => list.classList.remove('active'));
+
+            // Tüm butonları inaktif yap
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // İstenen listeyi göster
+            document.getElementById(listName + '-list').classList.add('active');
+
+            // İlgili butonu aktif yap
+            event.currentTarget.classList.add('active');
+        }
+
+        // KUTUCUKLARA TIKLAMA REAKSİYONU (Geliştirilebilir)
+        const statBoxes = document.querySelectorAll('.stat-box');
+        statBoxes.forEach(box => {
+            box.addEventListener('click', function() {
+                // Şimdilik sadece neon efektini artır
+                this.style.boxShadow = '0 0 25px #fff';
+                setTimeout(() => {
+                    // 0.5 saniye sonra eski haline döndür
+                    this.style.boxShadow = '';
+                }, 500);
+            });
+        });
     </script>
 </body>
 </html>
+
